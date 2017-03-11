@@ -18,7 +18,10 @@ export abstract class BaseRepository<U, T extends Instance<U, T>> {
      * @returns {Promise<T>}
      */
     public create(item: U): Promise<any> {
-        return Promise.resolve(this.model.insert(item));
+        return Promise.resolve(this.model.insert(item))
+            .then((newItem) => {
+                return newItem.document;
+            });
     }
 
     /**

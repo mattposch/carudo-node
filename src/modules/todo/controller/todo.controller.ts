@@ -17,36 +17,34 @@ export class TodoController implements interfaces.Controller {
     ) { }
 
     @Get('/')
-    public async findAll(request: Request): Promise<any> {
+    public async findAll(request: Request/*, response: Response*/): Promise<any> {
         return await this._todoService.findAll();
     }
 
     @Get('/:id')
-    public async findById(request: Request): Promise<any> {
+    public async findById(request: Request/*, response: Response*/): Promise<any> {
         return await this._todoService.findById(request.params.id);
     }
 
     @Post('/')
-    public async create(request: Request, response: Response): Promise<void> {
+    public async create(request: Request/*, response: Response*/): Promise<any> {
         const todoRequest: TodoCreateRequest =
             await validateBody<TodoCreateRequest>(request, TodoCreateRequest);
 
-        await this._todoService.create(todoRequest);
-        response.send(204);
+        return await this._todoService.create(todoRequest);
     }
 
     @Patch('/:id')
-    public async update(request: Request, response: Response): Promise<void> {
+    public async update(request: Request/*, response: Response*/): Promise<any> {
         const todoRequest: TodoEditRequest =
             await validateBody<TodoEditRequest>(request, TodoEditRequest);
 
-        await this._todoService.update(request.params.id, todoRequest);
-        response.send(204);
+        return await this._todoService.update(request.params.id, todoRequest);
     }
 
     @Delete('/:id')
     public async delete(request: Request, response: Response): Promise<void> {
         await this._todoService.delete(request.params.id);
-        response.send(204);
+        response.sendStatus(204);
     }
 }
